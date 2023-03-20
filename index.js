@@ -1,16 +1,6 @@
-
-
-var observer = new PerformanceObserver(list => {
-    list.getEntries().forEach(entry => {
-    // Display each reported measurement on console       
-    if (entry.type === "reload") {
-        showD();
-    }
-    })
-});
-
-observer.observe({ type: "navigation", buffered: true });
-
+var count =0; 
+var player1 ;
+var player2 ;
 
 function showD(){
 
@@ -29,7 +19,33 @@ function showD(){
     if (rand1 == rand2){
         document.querySelector("h1").innerHTML= "Draw";}
         else if (rand1 > rand2){
-            document.querySelector("h1").innerHTML= "🚩PLayer 1 Wins";}
+            document.querySelector("h1").innerHTML= "🚩"+player1+ " Wins";}
             else if (rand2 > rand1){
-                document.querySelector("h1").innerHTML= "Player 2 Wins🚩";}
+                document.querySelector("h1").innerHTML= player2 + " Wins🚩";}
     }
+
+
+var observer = new PerformanceObserver(list => {
+    list.getEntries().forEach(entry => {
+    // Display each reported measurement on console    
+ 
+    if (entry.type === "reload") {
+        player1=sessionStorage.getItem('p1')
+        player2=sessionStorage.getItem('p2')
+        showD(); //call pictures if reloaded
+        
+    }
+    if (entry.type != "reload") {
+        if (count === 0){
+        player1 = prompt("Enter PLayer 1 Name");
+        player2 = prompt("Enter PLayer 2 Name");
+        sessionStorage.setItem("p1", player1);
+        sessionStorage.setItem("p2", player2);
+        count++;}
+    }
+    })
+});
+
+observer.observe({ type: "navigation", buffered: true });
+
+
